@@ -1,51 +1,52 @@
 # User Behavior Analysis
 
 ## Overview
+This project builds an mordern end-to-end data pipeline to process 100M+ rows Taobao user interaction data. Data is ingested into an AWS S3 data lake, transformed with Spark and dbt, orchestrated via Airflow, loaded into AWS Redshift for scalable querying, and visualized through Tableau dashboards. It demonstrates how to design a scalable, cloud-based data platform using modern data engineering tools.
 
-Business Backgroud <br>
-Taobao is a Chinese online shopping platform. It is headquartered in Hangzhou and is owned by Alibaba. According to Alexa rank, it is the eighth most-visited website globally in 2021.(source:wikipedia)<br>
-<br>
-Dataset: User_Behavior <br>
-The dataset of this project contains all the behaviors of about 1 million random users with behaviors (behaviors including pageview, favorite, cart, buy ) between  2017-11-25 to 2017-12-3 on the Taobao platform. Each row of the dataset represents a user behavior, which consists of user_id, item_id, category_id, behavior_type, timestamp.  
-https://tianchi.aliyun.com/dataset/dataDetail?dataId=649&userId=1<br>
-<br>
-Dataset Size<br>
-index: 100,150,807<br>
-user_id: 987,994 <br>
-item_id: 4,162,024<br>
-category_id: 9,439<br>
+**Architecture Diagram** 
+Mermaid 
 
-## 1.Business Analysis
+## Business Background
+Taobao is one of the biggest Chinese online shopping platform owned by Alibaba.
+Business goals of the analysis:
+Increase profit/sales.
+Improve buyer and seller engagement.
+KPIs include:
+Conversion rate (view → favorite → cart → purchase).
+Habit (daily and hourly active users)
+Sengmentation(RFM model)
+Preference(Top items and categories by engagement.)
 
-Goal for the platform app: 1. Incresing profit/sales. 2.Improving the amount of buyer and seller <br>
-How: Ceate KPIs and compare to the base line, find hidden information from buyer user, to support operation and product strategy making.<br> 
-(real scenario: gathering reuiqrements: from operation deparment - user centerted, or product deparment - product centerted) <br>
+## Dataset 
+Source: Tianchi Taobao User Behavior Dataset
+Size: 100,150,807 rows
+Users: ~988k
+Items: ~4.1M
+Categories: ~9.4k
+Features: user_id, item_id, category_id, behavior_type, timestamp
 
-![Mindmap](img/Analysis_Mindmap.png)
+## Data Pipeline 
 
-## 2.Data Collection 
-There are several different approaches to handle the original data: 
-Data Form: CSV File - SQL Database - pandas DataFram - Spark DataFrame<br>
-Reference: Data Integration: ETL extract, transform and load. Big Data: batach processing, configuration.<br>
+1. **Data Ingestion**  
+   - Batch load from CSV → **AWS S3** (data lake).  
+   - Optional: support for streaming in the future (Kafka/Kinesis).  
 
-## 3. Data Cleaninging 
-Column: column name, datatype<br> 
-Value: null, repeated, anomoly(constrain)<br> 
+2. **Data Cleaning / ETL**  
+   -  - **Spark** for large-scale batch ETL and **Airflow** for orchestration.
+   - Handle nulls, duplicates, and anomalies.  
+   - Schema validation.  
+  
+3. **Data Warehouse**  
+   - **AWS Redshift** as the main warehouse.  
+   - Partitioned/clustered tables for efficient querying.  
+   - Optional: Redshift Spectrum for querying raw S3 data.  
 
-## 4. Data Analysis 
-Pyspark Solution: see git pyspark.ipynb file 
-Mysql Solution: see git sql folder  
+4. **Analytic Engineering**  
+   - **dbt** for SQL-based transformations.
+   - Maintain modular, reusable transformation models. 
 
-## 5. Data Visualization and Interpretation 
-Tableau Solution<br> 
-![Dashboard](img/Dashboard.jpg)<br> 
-<br> 
-Interpretation: <br> 
-User Conversion: Although the traffic conversion rate is low, the customer conversion rate is not. This means customers are comparing different items through the platform. Big e-commerce platform can have low traffic conversion rate as the norm. The conversion rates should be compared to the similar platform instead of the industry average. <br>
-User Habit: There is a jump of clicks, sales and platform users on 2017-12-01.This may be due to the sales promotion. The click reaches the peak at 21:00 of the day. However, the amount of sales and users are relatively staeady after 10:00 . And 18:00 is the lowerst point of sales after 10:00 and the common time for dinner in China. This information can be provided to the seller users for their customer service planning. <br>
-User Value: RFM model... <br>
-User Preference: long tail effect... <br>
+## Dashboard Visulization 
 
-## 6.Further Development 
-ML Modeling: Recomendation System <br>
-ML Visualizationa and Interpretation: shap value for explainable AI <br>
+## Running the Project
+Repo structure 
+Environment consistency 
