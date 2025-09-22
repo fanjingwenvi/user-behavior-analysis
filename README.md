@@ -29,7 +29,6 @@ Features: user_id, item_id, category_id, behavior_type, timestamp
 
 1. **Data Ingestion**  
    - Batch load from CSV → **AWS S3** (data lake).  
-   - Optional: support for streaming in the future (Kafka/Kinesis).  
 
 2. **Data Cleaning / ETL**  
    -  - **Spark** for large-scale batch ETL and **Airflow** for orchestration.
@@ -38,15 +37,18 @@ Features: user_id, item_id, category_id, behavior_type, timestamp
   
 3. **Data Warehouse**  
    - **AWS Redshift** as the main warehouse.  
-   - Partitioned/clustered tables for efficient querying.  
-   - Optional: Redshift Spectrum for querying raw S3 data.  
+   - Partitioned/clustered tables for efficient querying.   
 
 4. **Analytic Engineering**  
    - **dbt** for SQL-based transformations.
    - Maintain modular, reusable transformation models. 
 
-## Dashboard Visulization 
+5. Dashboard Visulization 
+   - **Tableau** for visualizing data.
 
 ## Running the Project
-Repo structure 
-Environment consistency 
+Repo structure:
+Quickstart / Environment consistency 
+
+## More 
+cost comparison: local mode vs aws version 
